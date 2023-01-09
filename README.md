@@ -84,14 +84,14 @@ Exemplo aplicando prepend (AS-Path) com mikrotik:
 #### <u>Configurando Peer BGP</u>
 <br>
 
-- networks
+- networks<br>
   ![Configurar Networks](images/AS-Networks.png)
 
-- BlackHole
+- BlackHole<br>
   ![Configurar Blackhole](images/Blackhole.png)
 
-- Peer BGP
-  ![Configurar Peer](images/Peer-BGP.png)
+- Peer BGP<br>
+  ![Configurar Peer](images/Peer-BGP.png)<br>
   ![Configurar Peer](images/Connection-Filter.png)
 
 
@@ -416,5 +416,72 @@ policy-options {
         }                               
     }
 }
+
+```
+
+
+#### Export Cliente-Sub-Zero
+
+```
+# jan/09/2023 21:05:12 by RouterOS 7.6
+# software id =
+#
+/interface bridge add name=Loopback
+/interface ethernet set [ find default-name=ether1 ] name=E1-Link-Scorpion
+/interface ethernet set [ find default-name=ether2 ] name=E2-
+/interface ethernet set [ find default-name=ether3 ] name=E3-Link-Raiden
+/interface ethernet set [ find default-name=ether4 ] name=E4-
+/interface vlan add interface=E1-Link-Scorpion name=vlan366-Link-Scorpion-IPv4 vlan-id=366
+/interface wireless security-profiles set [ find default=yes ] supplicant-identity=MikroTik
+/port set 0 name=serial0
+/routing bgp template set default as=333 disabled=no router-id=172.16.20.1 routing-table=main
+/ip address add address=10.255.255.77 interface=Loopback network=10.255.255.77
+/ip address add address=172.16.20.1 interface=Loopback network=172.16.20.1
+/ip address add address=172.20.20.2/30 interface=vlan366-Link-Scorpion-IPv4 network=172.20.20.0
+/ip address add address=172.25.20.2/30 interface=E3-Link-Raiden network=172.25.20.0
+/ip dhcp-client add interface=E1-Link-Scorpion
+/ip firewall address-list add address=172.16.20.0/22 list=Meu-Bloco
+/ip firewall address-list add address=172.16.20.0/23 list=Meu-Bloco
+/ip firewall address-list add address=172.16.20.0/24 list=Meu-Bloco
+/ip firewall address-list add address=172.16.22.0/24 list=Meu-Bloco
+/ip firewall address-list add address=172.16.22.0/23 list=Meu-Bloco
+/ip firewall address-list add address=172.16.21.0/24 list=Meu-Bloco
+/ip firewall address-list add address=172.16.23.0/24 list=Meu-Bloco
+/ip proxy access add dst-address=172.18.18.1 dst-host=google.com/xxt
+/ip route add blackhole comment=Blackhole disabled=no distance=255 dst-address=172.16.20.0/22 gateway="" pref-src="" routing-table=main scope=30 suppress-hw-offload=no target-scope=10
+/ip route add blackhole comment=Blackhole disabled=no distance=255 dst-address=172.16.20.0/23 gateway="" pref-src="" routing-table=main scope=30 suppress-hw-offload=no target-scope=10
+/ip route add blackhole comment=Blackhole disabled=no distance=255 dst-address=172.16.20.0/24 gateway="" pref-src="" routing-table=main scope=30 suppress-hw-offload=no target-scope=10
+/ip route add blackhole comment=Blackhole disabled=no distance=255 dst-address=172.16.21.0/24 gateway="" pref-src="" routing-table=main scope=30 suppress-hw-offload=no target-scope=10
+/ip route add blackhole comment=Blackhole disabled=no distance=255 dst-address=172.16.22.0/24 gateway="" pref-src="" routing-table=main scope=30 suppress-hw-offload=no target-scope=10
+/ip route add blackhole comment=Blackhole disabled=no distance=255 dst-address=172.16.22.0/23 gateway="" pref-src="" routing-table=main scope=30 suppress-hw-offload=no target-scope=10
+/ip route add blackhole comment=Blackhole disabled=no distance=255 dst-address=172.16.23.0/24 gateway="" pref-src="" routing-table=main scope=30 suppress-hw-offload=no target-scope=10
+/routing bgp connection add address-families=ip as=333 cisco-vpls-nlri-len-fmt=auto-bits connect=yes disabled=no input.filter=Link-Scorpion-IPv4-IN listen=yes local.address=172.20.20.2 .role=ebgp name=Link-Scorpion-IPv4 nexthop-choice=force-self output
+.filter-chain=Link-Scorpion-IPv4-OUT .network=Meu-Bloco .no-client-to-client-reflection=yes remote.address=172.20.20.1/32 .as=777 .port=179 router-id=172.16.20.1 routing-table=main templates=default
+/routing bgp connection add address-families=ip as=333 cisco-vpls-nlri-len-fmt=auto-bits connect=yes disabled=no input.filter=Link-Raiden-IPv4-IN listen=yes local.address=172.25.20.2 .role=ebgp name=Link-Raiden nexthop-choice=force-self output.filter-c
+hain=Link-Raiden-IPv4-OUT .network=Meu-Bloco .no-client-to-client-reflection=yes remote.address=172.25.20.1/32 .as=999 .port=179 router-id=172.16.20.1 routing-table=main templates=default
+/routing filter rule add chain=Link-Scorpion-IPv4-IN disabled=no rule="if(dst==0.0.0.0/0){accept;}"
+/routing filter rule add chain=Link-Scorpion-IPv4-IN disabled=no rule="reject;"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=yes rule="if(dst == 172.16.20.0/22) {accept;}\r\
+    \nif(dst == 172.16.20.0/23) {accept;}\r\
+    \nif(dst == 172.16.22.0/23) {accept;}\r\
+    \nif(dst == 172.16.20.0/24) {set bgp-communities 777:666,777:123; accept;}\r\
+    \nif(dst == 172.16.21.0/24) {accept;}\r\
+    \nif(dst == 172.16.22.0/24) {accept;}\r\
+    \nreject;\r\
+    \nif(dst == 172.16.23.0/24) {accept;}\r\
+    \n"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=yes rule="if(dst == 172.16.20.0/22) {accept;}"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=yes rule="if(dst == 172.16.20.0/23) {accept;}"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=yes rule="if(dst == 172.16.22.0/23) {accept;}"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=no rule="if(dst == 172.16.20.0/24) {set bgp-communities 777:666; accept;}"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=yes rule="if(dst == 172.16.21.0/24) {accept;}"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=yes rule="if(dst == 172.16.22.0/24) {accept;}"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=yes rule="if(dst == 172.16.23.0/24) {accept;}"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=yes rule="if (dst in 172.16.20.0/22 && dst-len in 22-24){accept;}"
+/routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=no rule="reject;"
+/routing filter rule add chain=Link-Raiden-IPv4-IN disabled=no rule="reject;"
+/routing filter rule add chain=Link-Raiden-IPv4-OUT disabled=no rule="if(dst == 172.16.20.0/24) {set bgp-communities 777:666; accept;}\r\
+    \n\r\
+    \nif(dst == 172.16.21.0/24) {set bgp-path-prepend 3; accept;}"
 
 ```
