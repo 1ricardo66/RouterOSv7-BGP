@@ -1,8 +1,7 @@
 # RouterOS v7 BGP
 ______________
-#### Este repositório tem o foco de explanar brevemente as principais mudanças que ocorreram no BGP do sistema RO's v6 P/ RO's v7.
+#### Este repositório tem o foco de explanar brevemente as principais mudanças que ocorreram no BGP do sistema RO'sV6 P/ RO'sV7.
 
-##### Segue alguns exemplos de alterações referente ao BGP que aconteceram! 
 - **BGP-Networking**
   - **RO's v6:** *Na versão 6 você consegue informar os prefixos originados por seu ASN através do caminho* **Routing > BGP > Networks**
   - **RO's v7:** *Já na versão 7 para informar os prefixos que serão originados por seu ASN, é necessário criar uma address list, contendo a respectiva quebra do ASN, segue o caminho:* **IP > Firewall > Address Lists.**
@@ -23,7 +22,7 @@ ______________
 
 
 __________
-### <u>Exemplo sessão BGP RO's v7</u>
+### <u>Exemplo sessão BGP RO's V7</u>
 
 ##### Neste exemplo estaremos tratando sobre os seguintes temas:
 - **Configurar Filtro BGP**
@@ -102,30 +101,24 @@ __________
 ______________
 | Comando | Descrição |
 | - | - |
-| dst-len | Lorem ipsum |
-| bgp-path-len | Quantidade atual de AS-Path |
-| bgp-input-local-as |	Lorem ipsum |
-| bgp-input-remote-as	| Lorem ipsum |
-| bgp-output-local-as | Lorem ipsum |
-| bgp-output-remote-as	| Lorem ipsum |
-| ospf-metric	| Lorem ipsum|
-| ospf-tag	| Lorem ipsum |
-| rip-metric	| Lorem ipsum |
-| rip-tag	| Lorem ipsum |
+| set bgp-med 15 | Altera o peso das rotas |
+| set bgp-local-pref 300 | Quantidade atual de AS-Path |
+| set bgp-ext-communities rt:327824:20 |	Export ext communities |
+| set bgp-path-prepend 3 | Adiciona seu AS em uma rota BGP |
+
+
 
 ### Operadores Lógico
 __________
 | Operador | Descrição |
 | - | - |
-| && | - |
-| \|\| | - |
-| not | - |
+| && | e |
+| \|\| | ou |
+| not | não |
 
 
 
 ______________
-
-
 ### Fatos interessantes RouterOS 7
 
 #### ```No presente momento onde este artigo está sendo escrito, estamos utilizando a versão 7.6 do RouterOS```
@@ -135,7 +128,12 @@ ______________
 
 
 - **BGP-Sessions:**
-    - _Na versão 7.6, caso seja utilizado o serviço de "Refresh" para atualizar a tabela de rotas de rotas apreendidas via EBGP, o peer referênciado mudará o status para down e permanecera neste status, enquanto o equipamento não for rebootado!<br>Sendo assim, é recomendado **não** utilizar este recurso da mikrotik._
+    - _No presente momento, caso seja utilizado o serviço de "Refresh" para atualizar a tabela de rotas de rotas apreendidas via EBGP, o peer referênciado mudará o status para down e permanecera neste status, enquanto o equipamento não for rebootado!<br>Sendo assim, é recomendado **não** utilizar este recurso da mikrotik._
+
+
+
+
+
 
 _________
 ### Export Operadora Scorpion
@@ -398,7 +396,7 @@ policy-options {
 
 ```
 
-
+_________
 #### Export Cliente-Sub-Zero
 
 ```
