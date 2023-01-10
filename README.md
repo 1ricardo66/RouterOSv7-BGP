@@ -1,7 +1,8 @@
 # RouterOS v7 BGP
 ______________
-#### Este repositório tem o foco de explanar brevemente as principais mudanças que ocorreram no BGP do sistema RO'sv6 P/ RO'sv7.
+#### Este repositório tem o foco de explanar brevemente as principais mudanças que ocorreram no BGP do sistema RO's v6 P/ RO's v7.
 
+##### Segue alguns exemplos de alterações referente ao BGP que aconteceram! 
 - **BGP-Networking**
   - **RO's v6:** *Na versão 6 você consegue informar os prefixos originados por seu ASN através do caminho* **Routing > BGP > Networks**
   - **RO's v7:** *Já na versão 7 para informar os prefixos que serão originados por seu ASN, é necessário criar uma address list, contendo a respectiva quebra do ASN, segue o caminho:* **IP > Firewall > Address Lists.**
@@ -22,7 +23,7 @@ ______________
 
 
 __________
-### <u>Exemplo sessão BGP RO's V7</u>
+### <u>Exemplo sessão BGP RO's v7</u>
 
 ##### Neste exemplo estaremos tratando sobre os seguintes temas:
 - **Configurar Filtro BGP**
@@ -124,23 +125,6 @@ __________
 
 ______________
 
-### Mudanças BGP RO's V7
-
-- Configurar networks
-- Configurar BlackHole
-- Configurar Local AS
-- Configurar Filtros (Input - Output)
-  - Aplicar community
-  - Aplicar AS-path
-  - Aplicar Local-Preference
-- Configurar peer EBGP  
-
-
-![Configurar Networks](images/AS-Networks.png)
-
-
-
-
 
 ### Fatos interessantes RouterOS 7
 
@@ -151,12 +135,7 @@ ______________
 
 
 - **BGP-Sessions:**
-    - _No presente momento, caso seja utilizado o serviço de "Refresh" para atualizar a tabela de rotas de rotas apreendidas via EBGP, o peer referênciado mudará o status para down e permanecera neste status, enquanto o equipamento não for rebootado!<br>Sendo assim, é recomendado **não** utilizar este recurso da mikrotik._
-
-
-
-
-
+    - _Na versão 7.6, caso seja utilizado o serviço de "Refresh" para atualizar a tabela de rotas de rotas apreendidas via EBGP, o peer referênciado mudará o status para down e permanecera neste status, enquanto o equipamento não for rebootado!<br>Sendo assim, é recomendado **não** utilizar este recurso da mikrotik._
 
 _________
 ### Export Operadora Scorpion
