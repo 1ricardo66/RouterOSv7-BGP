@@ -91,7 +91,7 @@ Exemplo aplicando prepend (AS-Path) com mikrotik:
   ![Configurar Blackhole](images/Blackhole.png)
 
 - Peer BGP<br>
-  ![Configurar Peer](images/Peer-BGP.png)<br>
+  ![Configurar Peer](images/Peer-BGP.png)<br><br>
   ![Configurar Peer](images/Connection-Filter.png)
 
 
@@ -111,9 +111,9 @@ ______________
 ### Operadores Lógico
 __________
 | Operador | Descrição |
-| - | - |
-| && | e |
-| \|\| | ou |
+| -   |   - |
+| &&  | e   |
+| \|\ | ou  |
 | not | não |
 
 
