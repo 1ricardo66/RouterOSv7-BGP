@@ -100,8 +100,8 @@ ______________
 | Comando | Descrição |
 | - | - |
 | set bgp-med 15 | Alterar o peso das rotas para 15 |
-| set bgp-local-pref 300 | Alterar a preferencia das rotas para 300  |
-| set bgp-ext-communities rt:327824:20 |	Inserir uma community extendida em um ou mais prefixos |
+| set bgp-local-pref 300 | Alterar a preferência das rotas para 300  |
+| set bgp-ext-communities rt:327824:20 |	Inserir uma community estendida em um ou mais prefixos |
 | set bgp-path-prepend 3 | Adicionar seu AS em uma rota BGP |
 | set bgp-communities 777:666 | Inserir uma community em um ou mais prefixos |
 
@@ -140,7 +140,7 @@ ______________
 
 
 - **BGP-Sessions:**
-    - _No presente momento, caso seja utilizado a função de "refresh" para atualizar a tabela de rotas apreendidas via eBGP, o peer referenciado mudará o status para down e permanecerá neste enquanto o equipamento não for rebootado! Através dos testes realizados em laboratório com equipamentos **virtualizados** mesmo após desabilitar e habilitar a sessão BGP ou até mesmo alterando o status da interface, o peer não retornou para a condição de established!<br>Sendo assim, é recomendado **NÃO** utilizar este recurso da mikrotik._
+    - _No presente momento, caso seja utilizado a função de "refresh" para atualizar a tabela de rotas apreendidas via eBGP, o peer referenciado mudará o status para down e permanecerá neste enquanto o equipamento não for rebootado! Através dos testes realizados em laboratório com equipamentos **virtualizados** mesmo após desabilitar e habilitar a sessão BGP ou até mesmo alterando o status da interface, o peer não retornou para a condição de estabelecida!<br>Sendo assim, é recomendado **NÃO** utilizar este recurso da mikrotik._
 
 
 
