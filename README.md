@@ -1,45 +1,44 @@
 # RouterOS v7 BGP
 ______________
-#### Este repositório tem o foco de explanar brevemente as principais mudanças que ocorreram no BGP do sistema RO'sV6 P/ RO'sV7.
+#### Este artigo tem o objetivo de tratar brevemente sobre as principais mudanças que ocorreram no BGP do sistema RouterOS v6 para RouterOS v7
 
 - **BGP-Networking**
-  - **RO's v6:** *Na versão 6 você consegue informar os prefixos originados por seu ASN através do caminho* **Routing > BGP > Networks**
-  - **RO's v7:** *Já na versão 7 para informar os prefixos que serão originados por seu ASN, é necessário criar uma address list, contendo a respectiva quebra do ASN, segue o caminho:* **IP > Firewall > Address Lists.**
-- **Anuncio dos Prefixos**
-  - **RO's v6:** *Na versão 6 é possível anunciar seu prefixo através da função __Synchronize__, sem que seja necessário adicionar de forma estática os prefixos que serão anunciados!*
-  - **RO's v7:** *Já na versão 7, você precisa ter os prefixos que serão anunciados instalado em sua FIB de forma manual, pois não há mais a opção de Synchronize.*
-- **Configuração de instancia**
-  - **RO's v6:** *Na versão 6 é possível configurar uma nova instancia através do seguinte caminho:* **Routing > BGP > instances**
-  - **RO's v7:** *Na versão 7 você pode configurar sua instancia diretamente em um peer, ou caso prefira, também é possível criar um template e associar o mesmo no peer desejado, através do seguinte caminho:* **Routing > BGP > Templates**
+  - **RouterOS v6:** *Na versão 6 você consegue informar os prefixos originados por seu ASN através do caminho* **Routing > BGP > Networks**
+  - **RouterOS v7:** *Já na versão 7 para informar os prefixos que serão originados por seu ASN, é necessário criar uma address list, contendo a respectiva quebra do ASN, segue o caminho:* **IP > Firewall > Address Lists.**
+- **Anuncio dos prefixos**
+  - **RouterOS v6:** *Na versão 6 é possível anunciar seu prefixo através da função __Synchronize__, sem que seja necessário adicionar de forma estática os prefixos que serão anunciados!*
+  - **RouterOS v7:** *Já na versão 7, você precisa ter os prefixos que serão anunciados instalado em sua FIB de forma manual, pois não há mais a opção de Synchronize.*
+- **Configuração de instância**
+  - **RouterOS v6:** *Na versão 6 é possível configurar uma nova instância através do seguinte caminho:* **Routing > BGP > instances**
+  - **RouterOS v7:** *Na versão 7 você pode configurar sua instância diretamente em um peer, ou caso prefira, também é possível criar um template e associar o mesmo no peer desejado, através do seguinte caminho:* **Routing > BGP > Templates**
 
 - **Configuração de Filtros**
-  - **RO's v6:** *Na versão 6 possuimos uma GUI que nos permite manipular nossos anúncios*
-  - **RO's v7:** *Na versão 7 os filtros devem ser configurados através de __CLI__, semelhante a um script*  
+  - **RouterOS v6:** *Na versão 6 possuimos uma GUI que nos permite manipular nossos anúncios*
+  - **RouterOS v7:** *Na versão 7 os filtros devem ser configurados através do __terminal__, ou através de uma __GUI__, porém via linha de comando.*  
 
 - **Configuração de Peer BGP**
-  - **RO's v6:** *Na versão 6 há o campo __Routing > BGP > Peers__ onde possibilita estabelecer uma sessão*
-  - **RO's v7:** *Já na versão 7 há o campo __Routing > BGP > Connection__*
+  - **RouterOS v6:** *Na versão 6 há o campo __Routing > BGP > Peers__ onde possibilita estabelecer uma sessão*
+  - **RouterOS v7:** *Já na versão 7 há o campo __Routing > BGP > Connection__, onde permite que seja configurado uma nova sessão BGP*
 
 
 __________
-### <u>Exemplo sessão BGP RO's V7</u>
+### <u>Exemplo de uma sessão BGP RouterOS v7</u>
 
-##### Neste exemplo estaremos tratando sobre os seguintes temas:
+##### Neste exemplo estaremos tratando sobre os seguintes assuntos:
 - **Configurar Filtro BGP**
   - INPUT
     - Aplicar Local-Preference
   - OUTPUT
-    - Aplicar community
+    - Aplicar Community
     - Aplicar AS-path
 - **Configurar Conexão BGP**
  - Template
  - Networks
   - Peer BGP
 
-##### <u>Filtros BGP (Input )</u>
+##### <u>Filtros BGP (Input)</u>
 
 ```
-
 /routing filter rule add chain=Link-Scorpion-IPv4-IN disabled=no rule="set bgp-local-pref 900; accept;"
 
 /routing filter rule add chain=Link-Scorpion-IPv4-IN disabled=no rule="if(dst==0.0.0.0/0){accept;}"
@@ -47,10 +46,9 @@ __________
 /routing filter rule add chain=Link-Scorpion-IPv4-IN disabled=no rule="if(dst in 172.20.20.0/22 && dst-len in 22-23){reject;}"
 
 /routing filter rule add chain=Link-Scorpion-IPv4-IN disabled=no rule="reject;"
-
 ```
 
-##### <u>Filtros BGP (Output )</u>
+##### <u>Filtros BGP (Output)</u>
 
 ```
 Exemplos de anuncios BGP:
@@ -63,18 +61,18 @@ Exemplos de anuncios BGP:
   /routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=no rule="if(dst == 172.16.22.0/24) {accept;}"
   /routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=no rule="if(dst == 172.16.23.0/24) {accept;}"
 
-Através deste Exemplo obtemos o mesmo resultado:
+Através deste exemplo obtemos o mesmo resultado:
 
   /routing filter rule add chain=Link-Scorpion-IPv4-OUT disabled=no rule="if (dst in == 172.16.20.0/22 && dst-len in 22-24){accept;}"
 
-Exemplo de filtro com community:
+Exemplo de um filtro com community:
 
   if(dst == 172.16.20.0/24) {set bgp-communities 777:666; accept;}
 
 ```
 ![Configurar Community](images/BGP-Received-Community.png)
 ```
-Exemplo aplicando prepend (AS-Path) com mikrotik:
+Exemplo de um anuncio com prepend (AS-Path) com mikrotik:
 
   if(dst == 172.16.21.0/24) {set bgp-path-prepend 3; accept;}
 
@@ -84,10 +82,10 @@ Exemplo aplicando prepend (AS-Path) com mikrotik:
 #### <u>Configurando Peer BGP</u>
 <br>
 
-- networks<br>
+- Networks<br>
   ![Configurar Networks](images/AS-Networks.png)
 
-- BlackHole<br>
+- Blackhole<br>
   ![Configurar Blackhole](images/Blackhole.png)
 
 - Peer BGP<br>
@@ -101,10 +99,11 @@ __________
 ______________
 | Comando | Descrição |
 | - | - |
-| set bgp-med 15 | Altera o peso das rotas |
-| set bgp-local-pref 300 | Quantidade atual de AS-Path |
-| set bgp-ext-communities rt:327824:20 |	Export ext communities |
-| set bgp-path-prepend 3 | Adiciona seu AS em uma rota BGP |
+| set bgp-med 15 | Alterar o peso das rotas para 15 |
+| set bgp-local-pref 300 | Alterar a preferencia das rotas para 300  |
+| set bgp-ext-communities rt:327824:20 |	Inserir uma community extendida em um ou mais prefixos |
+| set bgp-path-prepend 3 | Adicionar seu AS em uma rota BGP |
+| set bgp-communities 777:666 | Inserir uma community em um ou mais prefixos |
 
 
 
@@ -112,31 +111,41 @@ ______________
 __________
 | Operador | Descrição |
 | -   |   - |
-| &&  | e   |
-| \|\ | ou  |
-| not | não |
+| "&&" , "and"  | e   |
+| \"\|\|" , "or" | ou  |
+| "!" , "not" | não |
+| "in" | em |
+
+
+### Operadores Relacionais
+
+| Operador | Descrição |
+| - | - |
+| "<" | Menor que |
+| ">" | Maior que |
+| "=" | Igual |
+| "<="| Menor ou igual |
+| ">="| Maior ou igual |
+| "!="| Diferente de |
 
 
 
 ______________
-### Fatos interessantes RouterOS 7
+### Fatos relevantes RouterOS 7
 
-#### ```No presente momento onde este artigo está sendo escrito, estamos utilizando a versão 7.6 do RouterOS```
-- **BGP Received routes:**
-  - _Na versão 7.6 do routerOS, mesmo quando é negado os prefixos que serão apreendidos via EBGP, os mesmos são listados na tabela de rotas, segue exemplo:_
+#### ```Para realizar todos os testes referenciados ao protocolo BGP foi utilizado a versão 7.6 virtualizada do sistema RouterOS```
+- **BGP received routes:**
+  - _Na versão 7.6 do routerOS, mesmo quando é negado os prefixos que serão aprendidos via eBGP, os mesmos continuam sendo listados na tabela de rotas de forma inválida, segue o exemplo:_
   ![Received-BGP-Routes](images/Routing-Table.png)
 
 
 - **BGP-Sessions:**
-    - _No presente momento, caso seja utilizado o serviço de "Refresh" para atualizar a tabela de rotas de rotas apreendidas via EBGP, o peer referênciado mudará o status para down e permanecera neste status, enquanto o equipamento não for rebootado!<br>Sendo assim, é recomendado **não** utilizar este recurso da mikrotik._
-
-
-
+    - _No presente momento, caso seja utilizado a função de "refresh" para atualizar a tabela de rotas apreendidas via eBGP, o peer referenciado mudará o status para down e permanecerá neste enquanto o equipamento não for rebootado! Através dos testes realizados em laboratório com equipamentos **virtualizados** mesmo após desabilitar e habilitar a sessão BGP ou até mesmo alterando o status da interface, o peer não retornou para a condição de established!<br>Sendo assim, é recomendado **NÃO** utilizar este recurso da mikrotik._
 
 
 
 _________
-### Export Operadora Scorpion
+### Export operadora Scorpion
 
 ```
 service timestamps debug datetime msec
@@ -295,7 +304,7 @@ end
 
 _________
 
-### Export Operadora Raiden
+### Export operadora Raiden
 
 ```
 ## Last commit: 2023-01-09 19:18:41 UTC by root
