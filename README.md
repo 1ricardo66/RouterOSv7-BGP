@@ -135,12 +135,13 @@ ______________
 
 #### ```Para realizar todos os testes referenciados ao protocolo BGP foi utilizado a versão 7.6 virtualizada do sistema RouterOS```
 - **BGP received routes:**
-  - _Na versão 7.6 do routerOS, mesmo quando é negado os prefixos que serão aprendidos via eBGP, os mesmos continuam sendo listados na tabela de rotas de forma inválida, segue o exemplo:_
+  - _Na versão 7.6 do routerOS, mesmo quando é negado os prefixos que serão aprendidos via eBGP, os mesmos continuam sendo listados na tabela de rotas com o status de inválido, segue o exemplo:_
   ![Received-BGP-Routes](images/Routing-Table.png)
 
 
 - **BGP-Sessions:**
-    - _No presente momento, caso seja utilizado a função de "refresh" para atualizar a tabela de rotas apreendidas via eBGP, o peer referenciado mudará o status para down e permanecerá neste enquanto o equipamento não for rebootado! Através dos testes realizados em laboratório com equipamentos **virtualizados** mesmo após desabilitar e habilitar a sessão BGP ou até mesmo alterando o status da interface, o peer não retornou para a condição de estabelecida!<br>Sendo assim, é recomendado **NÃO** utilizar este recurso da mikrotik._
+    - _No presente momento, caso seja utilizado a função de "refresh" ou “resend” para atualizar a tabela de rotas apreendidas via eBGP, o peer referenciado mudará o status para down e permanecerá neste enquanto o equipamento não for rebootado! Através dos testes realizados em laboratório com equipamentos **virtualizados** mesmo após desabilitar e habilitar a sessão BGP ou até mesmo alterando o status da interface, o peer não retornou para a condição de estabelecida!<br>Sendo assim, é recomendado **NÃO** utilizar este recurso da mikrotik._
+    ![BGP-Connection-Reset](images/Connection-stopped.png)
 
 
 
