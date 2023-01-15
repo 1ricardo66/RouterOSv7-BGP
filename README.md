@@ -32,8 +32,8 @@ __________
     - Aplicar Community
     - Aplicar AS-path
 - **Configurar Conexão BGP**
- - Template
- - Networks
+  - Template
+  - Networks
   - Peer BGP
 
 ##### <u>Filtros BGP (Input)</u>
